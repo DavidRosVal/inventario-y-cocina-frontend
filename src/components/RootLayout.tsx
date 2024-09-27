@@ -1,5 +1,5 @@
-import { ModeToggle } from "./components/mode-toggle"
-import { ThemeProvider } from "./components/theme-provider"
+import { ModeToggle } from "./mode-toggle"
+import { ThemeProvider } from "./theme-provider"
 
 function RootLayout( { children }: { children: React.ReactNode }) {
   return (

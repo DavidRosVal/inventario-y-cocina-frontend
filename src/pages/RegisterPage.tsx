@@ -8,9 +8,11 @@ import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import { registerFormSchema } from "../schemas/formSchema.ts"
-import { registerRequest } from "../api/auth.ts"
+import { useAuth } from "../context/AuthContext.tsx"
 
 function RegisterPage() {
+  const { signUp, errors } = useAuth()
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -25,11 +27,7 @@ function RegisterPage() {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof registerFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    const res = await registerRequest(values)
-    console.log(res.data)
+    signUp(values)
   }
 
   return (
@@ -118,6 +116,11 @@ function RegisterPage() {
                 />
               </div>
               <Button className="w-full mt-8" type="submit">Submit</Button>
+              <div className="mt-2">
+                {errors.map((err, i) => (
+                  <FormMessage key={i}>{err}</FormMessage>
+                ))}
+              </div>
             </form>
           </Form>
         </CardContent>

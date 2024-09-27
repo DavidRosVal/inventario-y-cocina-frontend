@@ -7,9 +7,21 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { loginFormSchema } from "../schemas/formSchema"
-import { loginRequest } from "../api/auth"
+import { useAuth } from "../context/AuthContext"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 function LoginPage() {
+  const { signIn, isAuthenticated, errors } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/profile')
+    }
+  }, [isAuthenticated, navigate])
+  
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -21,11 +33,7 @@ function LoginPage() {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    const res = await loginRequest(values)
-    console.log(res.data)
+    signIn(values)
   }
 
   return (
@@ -67,6 +75,11 @@ function LoginPage() {
                 />
               </div>
               <Button className="w-full mt-8" type="submit">Iniciar Sesión</Button>
+              <div className="mt-2">
+                {errors.map((err, i) => (
+                  <FormMessage key={i}>{err}</FormMessage>
+                ))}
+              </div>
             </form>
           </Form>
         </CardContent>
