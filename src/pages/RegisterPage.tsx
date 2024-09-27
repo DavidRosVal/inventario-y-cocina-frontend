@@ -8,10 +8,20 @@ import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import { registerFormSchema } from "../schemas/formSchema.ts"
-import { useAuth } from "../context/AuthContext.tsx"
+import { useAuth } from "../hooks/useAuth.ts"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 function RegisterPage() {
-  const { signUp, errors } = useAuth()
+  const { signUp, errors, usuario } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (usuario?.rol !== 'Administrador') {
+      navigate('/profile')
+    }
+  })
+  
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof registerFormSchema>>({

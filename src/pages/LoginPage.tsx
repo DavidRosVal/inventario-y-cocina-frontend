@@ -7,20 +7,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { loginFormSchema } from "../schemas/formSchema"
-import { useAuth } from "../context/AuthContext"
+
+import { useAuth } from "../hooks/useAuth.ts"
 import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
 
 function LoginPage() {
-  const { signIn, isAuthenticated, errors } = useAuth()
+  const { signIn, errors } = useAuth()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/profile')
-    }
-  }, [isAuthenticated, navigate])
-  
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -33,7 +26,8 @@ function LoginPage() {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    signIn(values)
+    await signIn(values)
+    navigate('/profile')
   }
 
   return (

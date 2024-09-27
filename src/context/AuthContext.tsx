@@ -1,7 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { loginRequest, registerRequest } from "../api/auth";
+import { createContext, useEffect, useState } from "react";
+import { loginRequest, logoutRequest, registerRequest, verifyTokenRequest } from "../api/auth";
 import { z } from "zod";
 import { loginFormSchema, registerFormSchema } from "../schemas/formSchema";
+//import { AxiosResponse } from "axios"; */
+import Cookies from 'js-cookie'
+import { useLocation } from "react-router-dom";
+
+
 
 type Usuario = {
   id_usuario: string
@@ -14,23 +19,16 @@ type Usuario = {
 type AuthContextType = {
   signUp: (values: z.infer<typeof registerFormSchema>) => void
   signIn: (values: z.infer<typeof loginFormSchema>) => void
-  isAuthenticated: boolean
+  signOut: () => void
   usuario: Usuario
   errors: string[]
 }
 export const AuthContext = createContext<AuthContextType>( {} as AuthContextType )
 
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
-}
-
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation();
+
   const [usuario, setUsuario] = useState<Usuario>(null)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
 
   const signUp = async (values: z.infer<typeof registerFormSchema>) => {
@@ -51,11 +49,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const res = await loginRequest(values)
       setUsuario(res.data.usuario)
-      setIsAuthenticated(true)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error)
       setErrors([error.response.data.error])
+    }
+  }
+
+  const signOut = async () => {
+    try {
+      const res = await logoutRequest()
+      if (res.status === 200) {
+        setUsuario(null)
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -67,15 +75,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return () => clearTimeout(timer)
     }
   }, [errors])
+
+  useEffect(() => {
+    if (Cookies.get('token')) {
+      console.log('el token existe', location.pathname)
+      getUserByToken()
+      return
+    }
+    return console.log('el token no existe')
+  }, [location.pathname])
   
+  async function getUserByToken() {
+    try {
+      const res = await verifyTokenRequest()
+      console.log('Usuario obtenido', res.data)
+      setUsuario(res.data)
+    } catch (error) {
+      console.log(error)
+  }}
 
   return (
     <AuthContext.Provider value={{
       signUp,
       signIn,
+      signOut,
       usuario,
-      isAuthenticated, 
-      errors
+      errors, 
+
     }}>
       {children}
     </AuthContext.Provider>

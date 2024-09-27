@@ -1,32 +1,46 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import LoginPage from "./pages/LoginPage"
 import RegisterPage from "./pages/RegisterPage"
-import { AuthProvider } from "./context/AuthContext"
+import HomePage from "./pages/HomePage"
+import ProfilePage from "./pages/ProfilePage"
+import ProtectedRoute from "./pages/ProtectedRoute"
+import AuthProviderParent from "./pages/AuthProviderParent"
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <h1>Gestión de inventario y comunicación con cocina</h1>,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/profile",
-    element: <h1>Perfil de usuario</h1>,
-  },
+    element: <AuthProviderParent />,
+    children: [
+      // rutas públicas
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      // rutas privadas
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/profile",
+            element: <ProfilePage />,
+          },
+          {
+            path: "/register",
+            element: <RegisterPage />,
+          },
+          
+        ]
+      }
+    ]
+  }
 ])
 
 function App() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
-    </AuthProvider>
+    <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
   )
 }
 
