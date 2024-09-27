@@ -6,16 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../components/ui/form"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
- 
-const formSchema = z.object({
-  email: z.string({ required_error: 'El email es requerido' }).email({ message: 'El email no es válido' }),
-  password: z.string({ required_error: 'La contraseña es requerida' }).min(6, 'La contraseña debe tener al menos 6 caracteres')
-})
+import { loginFormSchema } from "../schemas/formSchema"
+import { loginRequest } from "../api/auth"
 
 function LoginPage() {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: ""
@@ -23,10 +20,12 @@ function LoginPage() {
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
+    const res = await loginRequest(values)
+    console.log(res.data)
   }
 
   return (
