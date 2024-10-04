@@ -41,100 +41,121 @@ function RegisterPage() {
   }
 
   return (
-    <div className="h-full flex justify-center items-center">
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle className="text-xl text-center">Registro de Usuario</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} >
-              <div className="space-y-3">
-                <FormField
-                  control={form.control}
-                  name="nombre"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nombre</FormLabel>
-                      <FormControl>
-                        <Input placeholder="ej. John" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="apellido"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Apellido</FormLabel>
-                      <FormControl>
-                        <Input placeholder="ej. Doe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Correo electrónico</FormLabel>
-                      <FormControl>
-                        <Input placeholder="ej. johndoe@ejemplo.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Contraseña</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="ej. johndoe123" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="rol"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Rol que desempeña</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+    <div className="h-full bg-primary flex justify-center items-center relative overflow-hidden">
+      {/* Elipse superior */}
+      <div className="absolute top-[-80px] left-[-80px]">
+        <div className="relative w-[500px] h-[550px] ">
+          <div className="absolute top-0 left-0 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
+          <div className="absolute bottom-0 right-4 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
+        </div>
+      </div>
+      {/* Elipse inferior */}
+      <div className="absolute bottom-[-80px] right-[-80px]">
+        <div className="relative w-[500px] h-[550px] ">
+          <div className="absolute top-0 left-0 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
+          <div className="absolute bottom-0 right-4 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
+        </div>
+      </div>
+      {/* logo y formulario */}
+      <div className="z-10 flex flex-col items-center ">
+        <div className="h-20 w-20 rounded-full overflow-hidden mb-8">
+          <img src="/logo-restobar.jpg" alt="Logo" className="h-full w-full object-cover" />
+        </div>
+        <Card className="w-[500px] mb-10 py-5 px-14">
+          <CardHeader>
+            <CardTitle className="text-xl text-center">Registro de Usuario</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} >
+                <div className="space-y-3">
+                  <FormField
+                    control={form.control}
+                    name="nombre"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nombre</FormLabel>
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Seleccionar rol" />
-                          </SelectTrigger>
+                          <Input placeholder="ej. John" {...field} />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="Adminstrador">Administrador</SelectItem>
-                          <SelectItem value="Cocinero">Cocinero</SelectItem>
-                          <SelectItem value="Mozo/Cajero">Mozo/Cajero</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <Button className="w-full mt-8" type="submit">Submit</Button>
-              <div className="mt-2">
-                {errors.map((err, i) => (
-                  <FormMessage key={i}>{err}</FormMessage>
-                ))}
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="apellido"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Apellido</FormLabel>
+                        <FormControl>
+                          <Input placeholder="ej. Doe" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Correo electrónico</FormLabel>
+                        <FormControl>
+                          <Input placeholder="ej. johndoe@ejemplo.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contraseña</FormLabel>
+                        <FormControl>
+                          <Input type="password" placeholder="ej. johndoe123" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="rol"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Rol que desempeña</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Seleccionar rol" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Adminstrador">Administrador</SelectItem>
+                            <SelectItem value="Cocinero">Cocinero</SelectItem>
+                            <SelectItem value="Mozo/Cajero">Mozo/Cajero</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <Button className="w-full mt-8" type="submit">Submit</Button>
+                <div className="mt-2">
+                  {errors.map((err, i) => (
+                    <FormMessage key={i}>{err}</FormMessage>
+                  ))}
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
+      
     </div>
   )
 }

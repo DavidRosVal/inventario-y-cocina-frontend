@@ -2,10 +2,10 @@ import axios from './axios'
 import { z } from 'zod'
 import { loginFormSchema, registerFormSchema } from '../schemas/formSchema'
 
-export const registerRequest = (usuario: z.infer<typeof registerFormSchema>) => axios.post('/api/auth/register', usuario)
+export const registerRequest = async (usuario: z.infer<typeof registerFormSchema>) => await axios.post('/api/auth/register', usuario)
 
-export const loginRequest = (usuario: z.infer<typeof loginFormSchema>) => axios.post('/api/auth/login', usuario)
+export const loginRequest = async (usuario: z.infer<typeof loginFormSchema>) => await axios.post('/api/auth/login', usuario)
 
-export const logoutRequest = () => axios.post('/api/auth/logout')
+export const logoutRequest = async () => await axios.post('/api/auth/logout')
 
-export const verifyTokenRequest = () => axios.get('/api/auth/verify')
+export const verifyTokenRequest = async () => await axios.get('/api/auth/verify')
