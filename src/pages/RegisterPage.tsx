@@ -43,14 +43,14 @@ function RegisterPage() {
   return (
     <div className="h-full bg-primary flex justify-center items-center relative overflow-hidden">
       {/* Elipse superior */}
-      <div className="absolute top-[-80px] left-[-80px]">
+      <div className="absolute top-[-80px] left-[-80px] opacity-90">
         <div className="relative w-[500px] h-[550px] ">
           <div className="absolute top-0 left-0 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
           <div className="absolute bottom-0 right-4 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
         </div>
       </div>
       {/* Elipse inferior */}
-      <div className="absolute bottom-[-80px] right-[-80px]">
+      <div className="absolute bottom-[-80px] right-[-80px] opacity-90">
         <div className="relative w-[500px] h-[550px] ">
           <div className="absolute top-0 left-0 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
           <div className="absolute bottom-0 right-4 bg-none h-[350px] w-[350px] rounded-full border-[40px] border-secondary" />
